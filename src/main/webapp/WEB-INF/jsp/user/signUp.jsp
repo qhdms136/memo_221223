@@ -82,6 +82,68 @@ $(document).ready(function(){
 			
 		});
 	});
+	
+	// 회원가입
+	$('#signUpForm').on('submit', function(e){
+		e.preventDefault(); // 서브밋 기능 중단
+		
+		// validation
+		let loginId = $('#loginId').val().trim();
+		let password = $('#password').val();
+		let confirmPassword = $('#confirmPassword').val();
+		let name = $("#name").val().trim();
+		let email = $("#email").val().trim();
+		
+		if(!loginId){
+			alert("아이디를 입력하세요");
+			return false; // form일때는 return false;
+		}
+		if(!password || !confirmPassword){
+			alert("비밀번호를 입력하세요");
+			return false;
+		}
+		if(password != confirmPassword){
+			alert("비밀번호가 일치하지 않습니다.");
+			return false;
+		}
+		if (!name){
+			alert("이름을 입력하세요");
+			return false;
+		}
+		if(!email){
+			alert("이메일을 입력하세요");
+			return false;
+		}
+		
+		// 아이디 중복확인 완료 됐는지 확인 -> idCheckOk d-none이 있으면 alert
+		if($('#idCheckOk').hasClass("d-none")){
+			alert("아이디 중복확인을 다시 해주세요");
+			return false;
+		}
+		
+		// 서버로 보내는 방법
+		// 1) 서브밋
+		// $(this)[0].submit();	//일반 컨트롤러 (화면 이동)
+		
+	
+		// 2) AJAX	// RestController
+		let url = $(this).attr("action");
+		console.log(url);
+		let params = $(this).serialize();	// 폼 태그에 있는  name 속성값들로 파라미터 구성
+		console.log(params);
+		
+		// 새로운 문법
+		$.post(url, params)	//request
+		.done(function(data){
+			//response
+			if(data.code == 1){	// 성공
+				alert("가입을 환영합니다! 로그인을 해주세요.");
+				location.href = "/user/sign_in_view";
+			} else{	// 실패
+				alert(data.errorMessage);
+			}
+		});
+	});
 });
 </script>
 
