@@ -108,7 +108,7 @@ public class UserRestController {
 			session.setAttribute("userLoginId", user.getLoginId());
 		} else {	// 로그인 불가
 			result.put("code", 500);
-			result.put("errorMessage", "존재하지 않는 사용자 입니다.");
+			result.put("errorMessage", "존재하지 않는 사용자입니다.");
 		}
 		return result;
 	}

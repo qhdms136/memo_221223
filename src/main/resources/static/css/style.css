@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .logo-box{padding-top:20px;}
 header{height:100px;}
-.contents{min-height:500px;}
+.contents{min-height:500px; margin-top:20px;}
 footer{height:100px;}
 
 a:hover {text-decoration:none; color:#6799FF;}
