@@ -1,5 +1,8 @@
 package com.memo.post.bo;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,5 +27,9 @@ public class PostBO {
 		}
 		
 		return postMapper.insertPost(userId, subject, content, imagePath);
+	}
+	
+	public List<Map<String, Object>> getPostList(){
+		return postMapper.selectPostList();
 	}
 }

@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8000
 spring:
   mvc:
     view:
@@ -8,6 +8,6 @@ spring:
     static-path-pattern:  /static/**
   datasource:
     driver-class-name:  com.mysql.cj.jdbc.Driver
-    url:  jdbc:mysql://localhost:3306/memo_221223?characterEncoding=UTF-8
+    url:  jdbc:mysql://localhost:3307/memo_221223?characterEncoding=UTF-8
     username: root
     password: root

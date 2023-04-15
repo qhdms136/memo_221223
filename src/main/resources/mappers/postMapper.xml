@@ -5,9 +5,16 @@
  <mapper namespace="com.memo.post.dao.PostMapper">
  	<select id="selectPostList" resultType="map">
  		SELECT
- 			*
+ 			`id`
+			, `userId`
+			, `subject`
+			, `content`
+			, `imagePath`
+			, `createdAt`
+			, `updatedAt`
  		FROM
  			`post`
+ 		ORDER BY `id` DESC;
  	</select>
  	
  	<insert id="insertPost" parameterType="map">

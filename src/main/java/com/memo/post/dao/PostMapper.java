@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostMapper {
 	
-	public List<Map<String, Object>> selectPostList();
-	
 	public int insertPost(
 			@Param("userId") int userId,
 			@Param("subject") String subject,
 			@Param("content") String content,
 			@Param("imagePath") String imagePath);
+	
+	public List<Map<String, Object>> selectPostList();
 }
