@@ -1,7 +1,6 @@
 package com.memo.post.bo;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.memo.common.FileManagerService;
 import com.memo.post.dao.PostMapper;
+import com.memo.post.model.Post;
 
 @Service
 public class PostBO {
@@ -34,7 +34,13 @@ public class PostBO {
 		return postMapper.insertPost(userId, subject, content, imagePath);
 	}
 	
-	public List<Map<String, Object>> getPostList(){
+	public List<Post> getPostList() {
 		return postMapper.selectPostList();
+	}
+	
+	// input : postId, userId
+	// output : Post
+	public Post getPostByPostIdUserId(int postId, int userId) {
+		return postMapper.selectPostByPostIdUserId(postId, userId);
 	}
 }

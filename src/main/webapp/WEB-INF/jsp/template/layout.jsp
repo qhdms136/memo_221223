@@ -23,7 +23,7 @@
 		<section class="contents">
 			<jsp:include page="../${view}.jsp"/>
 		</section>
-		<footer class="bg-warning d-flex justify-content-center align-items-center">
+		<footer class="mt-5 bg-warning d-flex justify-content-center align-items-center">
 			<!-- 절대 경로 -->
 			<jsp:include page="/WEB-INF/jsp/include/footer.jsp"/>
 		</footer>

@@ -1,10 +1,11 @@
 package com.memo.post.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import com.memo.post.model.Post;
 
 @Repository
 public interface PostMapper {
@@ -15,5 +16,9 @@ public interface PostMapper {
 			@Param("content") String content,
 			@Param("imagePath") String imagePath);
 	
-	public List<Map<String, Object>> selectPostList();
+	public List<Post> selectPostList();
+	
+	public Post selectPostByPostIdUserId(
+			@Param("postId") int postId,
+			@Param("userId") int userId);
 }
