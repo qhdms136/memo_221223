@@ -84,4 +84,23 @@ public class PostBO {
 	public Post getPostByPostIdUserId(int postId, int userId) {
 		return postMapper.selectPostByPostIdUserId(postId, userId);
 	}
+	
+	// input : postId, (userId)
+	// output: 삭제된 행 개수(int)
+	public int deleteByPostIdUserId(int postId, int userId) {
+		
+		// 기존글 가져와봄 (이미지 확인을 위해)
+		Post post = getPostByPostIdUserId(postId, userId);
+		if(post == null) {
+			logger.error("[글 삭제] post is null. postId:{}, userId:{}" , postId, userId);
+			return 0;
+		}
+
+		// 기존 이미지가 있으면 삭제
+		if(post.getImagePath() != null) {
+			fileManager.deleteFile(post.getImagePath());
+		}
+		
+		return postMapper.deleteByPostIdUserId(postId, userId);
+	}
 }
