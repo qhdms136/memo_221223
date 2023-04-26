@@ -1,5 +1,6 @@
 package com.memo.post.bo;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;	// slf4j >> 인터페이스
@@ -16,6 +17,8 @@ import com.memo.post.model.Post;
 public class PostBO {
 	// private Logger logger = LoggerFactory.getLogger(PostBO.class);
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	private static final int POST_MAX_SIZE = 3;
 	
 	@Autowired
 	private PostMapper postMapper;
@@ -75,8 +78,31 @@ public class PostBO {
 		postMapper.updatePostByPostId(postId, subject, content, imagePath);
 	}
 	
-	public List<Post> getPostList() {
-		return postMapper.selectPostList();
+	public List<Post> getPostListByUserId(int userId, Integer prevId, Integer nextId) {
+		// 게시글 번호: 10 9 8 | 7 6 5 | 4 3 2 | 1
+		// 만약 4 3 2 페이지에 있을 때
+		// 1) 다음: 2보다 작은 3개 DESC
+		// 2) 이전: 4보다 큰 3개 ASC(5 6 7) => List reverse(7 6 5)
+		
+		// 3) 만약 첫페이지일 때 (이전, 다음 없음) DESC 3개
+		String direction = null; // 방향
+		Integer standardId = null; // 기준 postId
+		if(prevId != null) {	// 이전
+			direction = "prev";
+			standardId = prevId;
+			
+			List<Post> postList = postMapper.selectPostListByUserId(userId, direction, standardId, POST_MAX_SIZE);
+			// 가져온 List 뒤집는다. 5 6 7 => 7 6 5 
+			Collections.reverse(postList);	// 저장까지 해준다.(void)
+			
+			// return 결과 => 메소드 종료
+			return postList;
+		} else if(nextId != null) {
+			direction = "next";
+			standardId = nextId;
+		}
+		
+		return postMapper.selectPostListByUserId(userId, direction, standardId, POST_MAX_SIZE);
 	}
 	
 	// input : postId, userId
@@ -102,5 +128,16 @@ public class PostBO {
 		}
 		
 		return postMapper.deleteByPostIdUserId(postId, userId);
+	}
+	
+	// 이전 방향의 끝인지 확인
+	public boolean isPrevLastPage(int userId, int prevId) {
+		int postId = postMapper.selectPostIdByUserIdSort(userId, "DESC");
+		return postId == prevId;	// 같으면 끝 아니면 끝 아님
+	}
+	
+	// 다음 방향의 끝인지 확인
+	public boolean isNextLastPage(int userId, int nextId) {
+		return nextId == postMapper.selectPostIdByUserIdSort(userId, "ASC");
 	}
 }
